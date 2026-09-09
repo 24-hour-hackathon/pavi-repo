@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DocuMind | User login</title>
+  <link rel="stylesheet" href="css/auth-common.css" />
+  <link rel="stylesheet" href="css/user-login.css" />
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-card" aria-labelledby="loginTitle">
+      <aside class="brand-panel"><div class="brand"><span class="brand-mark"><i></i><i></i><i></i></span>documind</div><div class="brand-copy"><p>YOUR KNOWLEDGE, IN CONVERSATION</p><h1>Ask better.<br /><em>Know more.</em></h1><span>Answers grounded in the documents that matter to you.</span></div><div class="chat-hint">What is the leave policy? <b>•••</b></div></aside>
+      <section class="form-panel">
+        <nav class="page-switch"><a class="active" href="user-login.html">User</a><a href="admin-login.html">Admin</a></nav>
+        <p class="kicker">USER PORTAL</p><h2 id="loginTitle">Welcome back</h2><p class="subheading">Sign in to continue your conversations.</p>
+        <form id="userLoginForm" action="/api/auth/user/login" method="post" novalidate>
+          <div class="field"><label for="userIdentity">Username or email</label><input id="userIdentity" name="email" type="text" autocomplete="username" placeholder="you@example.com" required /></div>
+          <div class="field"><label for="userPassword">Password</label><input id="userPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required /></div>
+          <p id="loginMessage" class="form-message" role="alert"></p><button class="primary-button" type="submit">Log in <span>→</span></button>
+        </form>
+        <p class="switch-link">New to DocuMind? <a href="user-registration.html">Register here</a></p>
+      </section>
+    </section>
+  </main>
+  <script src="js/user-login.js"></script>
+</body>
+</html>

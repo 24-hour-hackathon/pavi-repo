@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DocuMind | Admin login</title>
+  <link rel="stylesheet" href="css/auth-common.css" />
+  <link rel="stylesheet" href="css/admin-login.css" />
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-card" aria-labelledby="adminTitle">
+      <aside class="brand-panel"><div class="brand"><span class="brand-mark"><i></i><i></i><i></i></span>documind</div><div class="brand-copy"><p>KNOWLEDGE BASE CONTROL</p><h1>Keep answers<br /><em>trustworthy.</em></h1><span>Manage approved documents and keep your assistant grounded.</span></div><div class="chat-hint">Admin workspace <b>✦</b></div></aside>
+      <section class="form-panel">
+        <nav class="page-switch"><a href="user-login.html">User</a><a class="active" href="admin-login.html">Admin</a></nav>
+        <p class="kicker">ADMIN PORTAL</p><h2 id="adminTitle">Admin login</h2><p class="subheading">Manage documents and your knowledge base.</p>
+        <form id="adminLoginForm" action="/api/auth/admin/login" method="post" novalidate>
+          <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" name="email" type="email" autocomplete="username" placeholder="admin@organization.com" required /></div>
+          <div class="field"><label for="adminPassword">Password</label><input id="adminPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required /></div>
+          <p id="adminMessage" class="form-message" role="alert"></p><button class="primary-button" type="submit">Log in <span>→</span></button>
+        </form>
+        <p class="switch-link">Need user access? <a href="user-login.html">Go to User login</a></p>
+      </section>
+    </section>
+  </main>
+  <script src="js/admin-login.js"></script>
+</body>
+</html>
