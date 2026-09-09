@@ -1,58 +1,41 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Enterprise RAG evaluation dashboard" />
-  <title>YDK | Evaluation & Testing</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Enterprise Document QA Assistant">
+  <title>YDK | Enterprise QA Assistant</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand"><span class="brand-icon"><i></i><i></i><i></i></span><span>YDK</span></div>
-      <p class="workspace-label">ENTERPRISE QA ASSISTANT</p>
-      <nav class="nav" aria-label="Main navigation">
-        <a href="#overview"><span>⌂</span>Overview</a>
-        <a href="#documents"><span>▤</span>Documents</a>
-        <a class="active" href="#evaluation"><span>◒</span>Evaluation</a>
-        <a href="#settings"><span>⚙</span>Settings</a>
+      <a class="brand" href="#assistant"><span class="brand-mark">Y</span><span>YDK <small>ENTERPRISE AI</small></span></a>
+      <nav aria-label="Main navigation">
+        <button class="nav-link active" data-view="assistant"><span>◈</span> Assistant</button>
+        <button class="nav-link" data-view="knowledge"><span>▣</span> Knowledge Base</button>
+        <button class="nav-link" data-view="evaluation"><span>✓</span> Evaluation</button>
       </nav>
-      <div class="sidebar-bottom"><div class="environment"><span class="status-dot"></span><span>Evaluation environment<strong>Connected</strong></span></div><div class="user-badge"><span>Y</span><div><b>YDK Team</b><small>Workspace admin</small></div><span class="chevron">⌄</span></div></div>
+      <div class="sidebar-bottom"><p>ACCOUNT</p><a class="nav-link" href="../login/user-login.html"><span>◌</span> User Login</a><a class="nav-link" href="../login/admin-login.html"><span>◇</span> Admin Login</a><div class="demo-note">Login is currently frontend-only.</div></div>
     </aside>
-
-    <main class="main-content" id="evaluation">
-      <header class="topbar"><div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Evaluation &amp; Testing</strong></div><div class="top-actions"><span class="last-run">Last run <b id="lastRun">Today, 10:42 AM</b></span><button id="refreshButton" class="ghost-button" type="button"><span>↻</span> Refresh results</button><button id="runButton" class="primary-button" type="button"><span>▶</span> Run evaluation</button></div></header>
-
-      <section class="page-intro"><div><p class="eyebrow">QUALITY CONTROL / RAG PIPELINE</p><h1>Evaluation &amp; Testing</h1><p>Measure answer quality, retrieval accuracy, and grounding confidence across your approved knowledge base.</p></div><div class="run-state"><span class="status-dot"></span><span>Ready to evaluate<strong id="runStatus">Latest results loaded</strong></span></div></section>
-
-      <section class="kpi-grid" aria-label="Evaluation key performance indicators">
-        <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">TOTAL TEST CASES</span><span class="kpi-icon blue">#</span></div><strong id="totalTested" class="kpi-value">5</strong><span class="kpi-foot">Across the active dataset</span></article>
-        <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">PASSED</span><span class="kpi-icon green">✓</span></div><strong id="passed" class="kpi-value">4</strong><span class="kpi-foot positive">80% pass rate</span></article>
-        <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">FAILED</span><span class="kpi-icon red">!</span></div><strong id="failed" class="kpi-value">1</strong><span class="kpi-foot negative">Needs investigation</span></article>
-        <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">GROUNDING ACCURACY</span><span class="kpi-icon purple">◈</span></div><strong id="grounding" class="kpi-value">80.0%</strong><span class="kpi-foot">Retrieval accuracy</span></article>
-        <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">UNSUPPORTED REJECTION</span><span class="kpi-icon amber">◇</span></div><strong id="unsupported" class="kpi-value">100.0%</strong><span class="kpi-foot">Unsupported query handling</span></article>
-        <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">AVERAGE LATENCY</span><span class="kpi-icon slate">◷</span></div><strong id="latency" class="kpi-value">—</strong><span class="kpi-foot">Not provided by evaluator</span></article>
+    <main class="main-content">
+      <header class="topbar"><div><p class="eyebrow" id="view-kicker">KNOWLEDGE WORKSPACE</p><h1 id="view-title">Assistant</h1></div><div class="connection" id="connection-state"><i></i><span>Checking backend…</span></div></header>
+      <section class="view active" id="assistant-view">
+        <div class="hero"><div><p class="eyebrow">DOCUMENT-GROUNDED ANSWERS</p><h2>Ask your approved knowledge base.</h2><p>Every answer is tied to the documents that support it.</p></div><span class="secure-badge">● Grounded AI</span></div>
+        <div class="assistant-layout"><div class="chat-card"><div class="chat-history" id="chat-history" aria-live="polite"><div class="empty-chat"><div class="empty-icon">✦</div><h3>How can I help?</h3><p>Ask a question about the documents in your knowledge base.</p></div></div><form class="question-form" id="question-form"><label for="question-input">Ask a question</label><div class="input-row"><textarea id="question-input" rows="2" placeholder="For example: What is Subramanya's employee ID?" required></textarea><button class="primary-btn" id="ask-button" type="submit">Ask AI <span>→</span></button></div><p class="form-hint" id="chat-status">Answers are generated only from indexed documents.</p></form></div><aside class="suggestions-card"><p class="eyebrow">TRY A QUESTION</p><button class="suggestion">What is Subramanya's employee ID?</button><button class="suggestion">How many vacation days does Subramanya get every year?</button><button class="suggestion">What is Subramanya's salary?</button><div class="grounding-note"><strong>Source grounded</strong><span>Unsupported questions are clearly identified instead of guessed.</span></div></aside></div>
       </section>
-
-      <section class="content-grid">
-        <article class="summary-card">
-          <div class="section-heading"><div><p class="eyebrow">EVALUATION SUMMARY</p><h2>RAG Grounding Score</h2></div><span class="info-dot" title="Based on retrieval_accuracy from eval_engine.py">i</span></div>
-          <div class="score-row"><div class="score-ring" id="scoreRing"><div><strong id="scoreValue">80.0</strong><small>/ 100</small></div></div><div class="score-copy"><span class="status-pill warning" id="scoreStatus">⚠ Needs review</span><p>Answers are being checked against expected document sources and citation coverage.</p><span class="score-note">Source: <b>retrieval_accuracy</b></span></div></div>
-          <div class="progress-block"><div><span>Retrieval accuracy</span><b id="retrievalProgressLabel">80.0%</b></div><div class="progress"><span id="retrievalProgress"></span></div></div>
-          <div class="progress-block"><div><span>Citation coverage</span><b id="citationProgressLabel">100.0%</b></div><div class="progress citation"><span id="citationProgress"></span></div></div>
-        </article>
-
-        <article class="history-card"><div class="section-heading"><div><p class="eyebrow">RUN HISTORY</p><h2>Recent evaluations</h2></div><button class="icon-button" type="button" aria-label="More history">•••</button></div><div class="history-list" id="historyList"><div class="history-item"><span class="history-icon success">✓</span><div><b>Full benchmark</b><small>5 test cases · Today, 10:42 AM</small></div><strong>80.0%</strong></div><div class="history-item"><span class="history-icon warning">⚠</span><div><b>Full benchmark</b><small>5 test cases · Yesterday, 4:18 PM</small></div><strong>80.0%</strong></div><div class="history-item"><span class="history-icon neutral">—</span><div><b>Initial dataset run</b><small>5 test cases · 12 Jun 2024</small></div><strong>—</strong></div></div></article>
+      <section class="view" id="knowledge-view">
+        <div class="section-heading"><div><p class="eyebrow">APPROVED DOCUMENTS</p><h2>Knowledge Base</h2><p>Upload and manage the documents used to ground answers.</p></div><button class="secondary-btn" id="refresh-documents">↻ Refresh results</button></div>
+        <div class="knowledge-grid"><form class="upload-card" id="upload-form"><p class="eyebrow">ADD DOCUMENT</p><h3>Upload for indexing</h3><p>PDF, DOCX, or TXT files only.</p><label class="drop-zone" for="document-file"><input id="document-file" type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" required><span class="upload-symbol">↑</span><strong>Choose a document</strong><small id="file-name">No file selected</small></label><button class="primary-btn full-width" id="upload-button" type="submit">Upload &amp; Index</button><p class="form-hint" id="upload-status">Your document will appear below after indexing.</p></form><div class="documents-card"><div class="card-title"><div><p class="eyebrow">LIBRARY</p><h3>Indexed documents</h3></div><span class="count" id="document-count">0 documents</span></div><div id="document-list" class="document-list"><div class="loading-row">Loading documents…</div></div></div></div>
       </section>
-
-      <section class="tests-section"><div class="section-heading tests-heading"><div><p class="eyebrow">TEST SUITE</p><h2>Test case breakdown</h2><span class="section-subtitle">Detailed results from <b>eval_dataset.json</b></span></div><div class="filters"><select id="categoryFilter" aria-label="Filter by category"><option value="all">All categories</option><option value="Direct factual questions">Direct factual</option><option value="Semantic/paraphrased questions">Semantic / paraphrased</option><option value="Unsupported questions">Unsupported</option><option value="Out-of-domain questions">Out-of-domain</option><option value="Empty/invalid questions">Empty / invalid</option><option value="Re-indexing tests">Re-indexing</option></select><select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="PASS">Passed</option><option value="FAIL">Failed</option></select></div></div><div class="table-wrap"><table><thead><tr><th>Question</th><th>Expected behavior</th><th>Actual result</th><th>Grounding</th><th>Status</th><th>Latency</th><th>Source found</th></tr></thead><tbody id="resultsBody"></tbody></table><div id="emptyResults" class="empty-table hidden">No test cases match these filters.</div></div></section>
-
-      <section class="category-section"><div class="section-heading"><div><p class="eyebrow">COVERAGE</p><h2>Test categories</h2></div></div><div class="category-grid" id="categoryGrid"><div class="category-card"><span class="category-mark blue">01</span><div><b>Direct factual questions</b><small>Exact answers from a known source</small></div><strong>—</strong></div><div class="category-card"><span class="category-mark purple">02</span><div><b>Semantic / paraphrased</b><small>Meaning-preserving question variants</small></div><strong>—</strong></div><div class="category-card"><span class="category-mark amber">03</span><div><b>Unsupported questions</b><small>Should be safely rejected</small></div><strong>—</strong></div><div class="category-card"><span class="category-mark slate">04</span><div><b>Out-of-domain questions</b><small>Outside the approved knowledge base</small></div><strong>—</strong></div><div class="category-card"><span class="category-mark green">05</span><div><b>Empty / invalid questions</b><small>Input validation and resilience</small></div><strong>—</strong></div><div class="category-card"><span class="category-mark teal">06</span><div><b>Re-indexing tests</b><small>Document update consistency</small></div><strong>—</strong></div></div></section>
-      <footer>YDK Evaluation UI <span>•</span> Metrics are populated from the evaluation backend when connected.</footer>
+      <section class="view" id="evaluation-view">
+        <div class="section-heading"><div><p class="eyebrow">QUALITY ASSURANCE</p><h2>Evaluation &amp; Testing</h2><p>Measure retrieval quality when an evaluation backend is connected.</p></div><div class="button-group"><button class="secondary-btn" id="refresh-evaluation">↻ Refresh Results</button><button class="primary-btn" id="run-evaluation">Run Evaluation</button></div></div>
+        <div id="evaluation-message" class="unavailable-card"><div class="empty-icon warning">!</div><div><p class="eyebrow">INTEGRATION REQUIRED</p><h3>Evaluation backend not connected</h3><p>The UI is ready for YDK evaluation results, but no evaluation API URL is configured. No demo metrics are shown as live data.</p></div></div>
+        <div id="evaluation-placeholder"><div class="evaluation-placeholder"><article class="placeholder-card"><span>Total test cases</span><strong>—</strong></article><article class="placeholder-card"><span>Passed</span><strong>—</strong></article><article class="placeholder-card"><span>Failed</span><strong>—</strong></article><article class="placeholder-card"><span>RAG Grounding Score</span><strong>—</strong></article><article class="placeholder-card"><span>Unsupported rejection</span><strong>—</strong></article><article class="placeholder-card"><span>Average latency</span><strong>—</strong></article></div><div class="evaluation-table-card"><div class="card-title"><div><p class="eyebrow">RECENT EVALUATION HISTORY</p><h3>Test case results</h3></div><span class="count">Awaiting backend</span></div><div class="empty-list">Connect YDK's real evaluation endpoint to display pass/fail test cases and the RAG Grounding Score.</div></div><div class="category-grid" aria-label="Evaluation test categories"><article class="category-card"><div><strong>Direct factual questions</strong><span>Awaiting results</span></div></article><article class="category-card"><div><strong>Semantic / paraphrased</strong><span>Awaiting results</span></div></article><article class="category-card"><div><strong>Unsupported questions</strong><span>Awaiting results</span></div></article><article class="category-card"><div><strong>Out-of-domain questions</strong><span>Awaiting results</span></div></article><article class="category-card"><div><strong>Empty / invalid questions</strong><span>Awaiting results</span></div></article><article class="category-card"><div><strong>Re-indexing tests</strong><span>Awaiting results</span></div></article></div></div><div id="evaluation-results" hidden></div>
+      </section>
     </main>
   </div>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="api-config.js"></script><script src="api-client.js"></script><script src="app.js"></script>
 </body>
 </html>
